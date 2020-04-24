@@ -1,0 +1,33 @@
+{
+  "name": "clgl",
+  "version": "0.1.0",
+  "description": "A graphic lib for command line.",
+  "main": "./js/index.js",
+  "types": "./types/index.d.ts",
+  "author": "3h",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "test": "node test",
+    "docs": "dts2md ** !index.d.ts -i ./types -o ./docs -l -I Home.md"
+  },
+  "repository": "huang2002/clgl",
+  "keywords": [
+    "cli",
+    "gl",
+    "command",
+    "line",
+    "graphic",
+    "lib",
+    "3h"
+  ],
+  "files": [
+    "js",
+    "types"
+  ],
+  "devDependencies": {
+    "@types/node": "^13.13.2",
+    "dts2md": "^0.4.1",
+    "typescript": "^3.8.0"
+  }
+}
