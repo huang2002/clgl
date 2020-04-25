@@ -1,6 +1,6 @@
 {
   "name": "clgl",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A graphic lib for command line.",
   "main": "./js/index.js",
   "types": "./types/index.d.ts",
