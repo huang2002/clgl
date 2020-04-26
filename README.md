@@ -18,7 +18,7 @@ const box = new Node({
     top:1,
     width: 10,
     height: 3,
-    shader: Shader.Pure('#'),
+    shader: Shaders.Pure('#'),
 });
 root.childNodes.push(box);
 
