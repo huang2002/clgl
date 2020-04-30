@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.0
+
+- Improve shader support
+- Add `root.effects`
+
 ## 0.1.2
 
 - Fix example code
