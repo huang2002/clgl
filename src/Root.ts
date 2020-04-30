@@ -1,16 +1,19 @@
 import { Node } from './Node';
 import { WriteStream } from 'tty';
+import { BufferPixel, Shader } from './Shaders';
+import { shade } from './shade';
 
 /**
  * The type of output buffer
  * (two-dimension arrays)
  */
-export type OutputBuffer = (string | null | undefined)[][];
+export type OutputBuffer = BufferPixel[][];
 /** dts2md break */
 export type RootOptions = Partial<{
     width: number;
     height: number;
     childNodes: Node[];
+    effects: Shader[];
     background: string;
 }>;
 /** dts2md break */
@@ -39,6 +42,9 @@ export class Root implements Required<RootOptions> {
         Object.assign(this, Root.defaults, options);
         if (!this.childNodes) {
             this.childNodes = [];
+        }
+        if (!this.effects) {
+            this.effects = [];
         }
         const { width } = this;
         this.buffer = Array.from({ length: this.height }, () => Array(width));
@@ -71,6 +77,12 @@ export class Root implements Required<RootOptions> {
     childNodes!: Node[];
     /** dts2md break */
     /**
+     * Post-effect shaders that will be applied to
+     * the whole buffer after nodes are rendered
+     */
+    effects!: Shader[];
+    /** dts2md break */
+    /**
      * The background charactor
      * (falsy values in output buffer will be
      * finally rendered as background charactors)
@@ -94,9 +106,12 @@ export class Root implements Required<RootOptions> {
      * (that is, render all nodes to the output buffer)
      */
     compose() {
-        const { buffer } = this;
+        const { buffer, width, height } = this;
         this.childNodes.forEach(node => {
             node.render(buffer);
+        });
+        this.effects.forEach(effect => {
+            shade(buffer, 0, 0, width, height, effect);
         });
     }
     /** dts2md break */

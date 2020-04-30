@@ -2,16 +2,18 @@
 const { Root, Node, Shaders } = require('..');
 
 const root = new Root({
-    height: 10,
+    height: 12,
     background: '-',
 });
+
+const CONTAINER_FILL = '#';
 
 const container = new Node({
     left: 2,
     top: 1,
     width: 30,
     height: 8,
-    shader: Shaders.Pure('#'),
+    shader: Shaders.Pure(CONTAINER_FILL),
 });
 root.childNodes.push(container);
 
@@ -36,7 +38,11 @@ const text = new Node({
     top: 3,
     width: 14,
     height: 4,
-    shader: Shaders.Pattern(['', '    hello,', '    world!'], {
+    shader: Shaders.Pattern([
+        '',
+        '    hello,'.replace(/ /g, root.background),
+        '    world!'.replace(/ /g, root.background)
+    ], {
         repeatX: false,
         repeatY: false,
     }),
@@ -55,10 +61,32 @@ const invisibleText = new Node({
 });
 root.childNodes.push(invisibleText);
 
+/**
+ * @type {import('..').Shader}
+ */
+const shadowEffect = (x, y, current, buffer) => {
+    if (
+        !current
+        && current !== CONTAINER_FILL
+        && y > 0
+        && x > 0
+        && buffer[y - 1][x - 1] === CONTAINER_FILL
+    ) {
+        return '\\';
+    } else {
+        return current;
+    }
+};
+root.effects.push(shadowEffect);
+
 root.tick();
 
 setTimeout(() => {
-    text.shader = Shaders.Pattern(['', '    HELLO,', '    WORLD!'], {
+    text.shader = Shaders.Pattern([
+        '',
+        '    HELLO,'.replace(/ /g, root.background),
+        '    WORLD!'.replace(/ /g, root.background)
+    ], {
         repeatX: false,
         repeatY: false,
     });

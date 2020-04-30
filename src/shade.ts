@@ -24,11 +24,12 @@ export const shade = (
     width: number,
     height: number,
     shader: Shader,
-    fixedOrigin: boolean,
+    fixedOrigin?: boolean,
 ) => {
 
     const bufferHeight = output.length,
-        bufferWidth = output[0].length;
+        bufferWidth = output[0].length,
+        cache = output.map(row => row.slice()); // copy
 
     for (let j = 0; j < height; j++) {
 
@@ -50,7 +51,9 @@ export const shade = (
                 break;
             }
 
-            output[y][x] = fixedOrigin ? shader(x, y) : shader(i, j);
+            output[y][x] = fixedOrigin
+                ? shader(x, y, cache[y][x], cache)
+                : shader(i, j, cache[y][x], cache);
 
         }
 

@@ -1,8 +1,25 @@
+import { OutputBuffer } from './Root';
+
 /**
- * A shader accepts the position to shade in the buffer
- * and returns a charactor to be put at the position
+ * The type of output buffer pixels
  */
-export type Shader = (x: number, y: number) => string | null | undefined;
+export type BufferPixel = string | null | undefined;
+/** dts2md break */
+/**
+ * A shader returns the pixel result
+ * to be put at a given position
+ * @param x the x position of the pixel
+ * @param y the y position of the pixel
+ * @param current current pixel in the buffer
+ * @param buffer current buffer
+ * @returns the result pixel
+ */
+export type Shader = (
+    x: number,
+    y: number,
+    current: BufferPixel,
+    buffer: OutputBuffer
+) => BufferPixel;
 /** dts2md break */
 /**
  * This namespace contains the built-in shader generators
